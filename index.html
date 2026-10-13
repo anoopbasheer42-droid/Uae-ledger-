@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 :root{--bg:#f4f6f9;--surface:#fff;--subtle:#f8fafc;--hover:#f1f5f9;--border:#e2e8f0;--border-2:#cbd5e1;--text-1:#0f172a;--text-2:#334155;--text-3:#64748b;--text-4:#94a3b8;--primary:#0f766e;--primary-2:#0d9488;--primary-soft:#ccfbf1;--success:#16a34a;--success-soft:#f0fdf4;--danger:#dc2626;--danger-soft:#fef2f2;--warning:#d97706;--warning-soft:#fffbeb;--purple:#7c3aed;--info-soft:#ecfeff;--info-text:#155e75;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
@@ -20,8 +21,15 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 [dir="rtl"] .page-head{flex-direction:row-reverse}
 [dir="rtl"] .tb-left{flex-direction:row-reverse}
 [dir="rtl"] .tb-company{flex-direction:row-reverse}
+[dir="rtl"] .tb-right{flex-direction:row-reverse}
 [dir="rtl"] .modal-head{flex-direction:row-reverse}
 [dir="rtl"] .modal-foot{flex-direction:row-reverse;justify-content:flex-start}
+[dir="rtl"] .bs-row{flex-direction:row-reverse}
+[dir="rtl"] .bs-total{flex-direction:row-reverse}
+[dir="rtl"] .total-row{flex-direction:row-reverse}
+[dir="rtl"] .kpi-top{flex-direction:row-reverse}
+[dir="rtl"] .cust-cell,[dir="rtl"] .item-cell{flex-direction:row-reverse}
+[dir="rtl"] .info-banner{flex-direction:row-reverse}
 
 /* SETUP */
 .setup-page{min-height:100vh;display:grid;grid-template-columns:46% 54%}
@@ -241,6 +249,11 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 .bs-total{display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:700;border-top:2px solid var(--border-2);margin-top:8px}
 .bs-total .v{font-family:var(--mono)}
 
+/* QR CODE */
+.qr-wrap{display:flex;flex-direction:column;align-items:center;padding:14px;background:#fff;border:2px dashed var(--primary);border-radius:10px;margin:0 auto}
+.qr-wrap img,.qr-wrap canvas{display:block;border-radius:6px}
+.qr-label{font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.6px;margin-top:8px;text-align:center}
+
 @media (max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.stats-strip{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:900px){
   .app{grid-template-columns:1fr}
@@ -270,9 +283,9 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
     <div class="brand-logo"><div class="brand-mark">L</div><div class="brand-name">LedgerPro</div></div>
     <div class="brand-content">
       <h1 class="brand-headline">Smart accounting for <em>UAE SMEs</em>.</h1>
-      <p class="brand-sub">VAT-compliant invoicing, corporate tax tracking, and financial reports. Works offline.</p>
+      <p class="brand-sub">VAT-compliant invoicing with QR codes, corporate tax tracking, and bilingual support.</p>
     </div>
-    <div class="brand-footer">v1.0.0 · UAE Edition · Data stays on your device</div>
+    <div class="brand-footer">v1.1.0 · UAE Edition · FTA Compliant</div>
   </aside>
   <main class="form-panel">
     <div class="form-wrap">
@@ -465,6 +478,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
         <div class="report-tab" data-report="pl" data-i18n="pl">Profit &amp; Loss</div>
         <div class="report-tab" data-report="bs" data-i18n="bs">Balance Sheet</div>
         <div class="report-tab" data-report="ct" data-i18n="ct">Corporate Tax (9%)</div>
+        <div class="report-tab" data-report="vat" data-i18n="vat_report">VAT Summary</div>
         <div class="report-tab" data-report="ar" data-i18n="ar">Receivables Aging</div>
         <div class="report-tab" data-report="ap" data-i18n="ap">Payables Aging</div>
       </div>
@@ -691,7 +705,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 </div></div>
 
 <div class="modal-bg" id="journalModal"><div class="modal lg">
-  <div class="modal-head"><div class="modal-title">Journal Entry</div><button class="modal-close" data-close="journalModal">×</button></div>
+  <div class="modal-head"><div class="modal-title">Invoice / Journal Entry</div><button class="modal-close" data-close="journalModal">×</button></div>
   <div class="modal-body" id="journalDetailBody"></div>
   <div class="modal-foot"><button class="btn btn-secondary" data-close="journalModal" data-i18n="close">Close</button></div>
 </div></div>
@@ -699,7 +713,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-/* ============ I18N DICTIONARY ============ */
+/* ============ I18N DICTIONARY (FULL) ============ */
 const i18n = {
   en: {
     dashboard: "Dashboard", dash_sub: "Overview of your business performance",
@@ -720,7 +734,7 @@ const i18n = {
     coa: "Chart of Accounts", coa_sub: "All ledger accounts", new_account: "New Account", code: "Code", account_name: "Account Name", group: "Group",
     journals: "Journal Entries", journals_sub: "Double-entry record of all transactions", description: "Description", source: "Source", debits: "Debits", credits: "Credits",
     reports: "Reports", reports_sub: "Financial statements",
-    tb: "Trial Balance", pl: "Profit & Loss", bs: "Balance Sheet", ct: "Corporate Tax (9%)", ar: "Receivables Aging", ap: "Payables Aging",
+    tb: "Trial Balance", pl: "Profit & Loss", bs: "Balance Sheet", ct: "Corporate Tax (9%)", vat_report: "VAT Summary", ar: "Receivables Aging", ap: "Payables Aging",
     banking: "Banking", banking_sub: "Cash and bank account balances", account: "Account", balance: "Balance",
     settings: "Settings", settings_sub: "Company and preferences", company_name: "Company Name", currency: "Currency", financial_year: "Financial Year", trn: "TRN",
     save_settings: "Save Settings", backup_restore: "Backup & Restore", backup_desc: "Download a copy of all your accounting data, or restore from a previous backup.",
@@ -731,7 +745,9 @@ const i18n = {
     invoice_date: "Invoice Date", due_date: "Due Date", line_items: "Line Items", item_desc: "Item / Description", qty: "Qty", rate: "Rate",
     subtotal: "Subtotal", add_line: "+ Add Line", reference: "Reference #",
     expense_account: "Expense Account", paid_to: "Paid To (Vendor)", bill_date: "Bill Date",
-    assets: "Assets", liabilities: "Liabilities", equity: "Equity", income: "Income"
+    assets: "Assets", liabilities: "Liabilities", equity: "Equity", income: "Income",
+    tax_invoice: "Tax Invoice", invoice_for: "Invoice for", balance_due: "Balance Due", print: "Print", record_pmt: "Record Payment", subtotal_label: "Subtotal", total_label: "Total", paid_label: "Paid",
+    verify_qr: "Verify with FTA App", qr_hint: "Scan with FTA Smart App to verify", sales_revenue: "Sales Revenue", service_income: "Service Income"
   },
   ar: {
     dashboard: "لوحة القيادة", dash_sub: "نظرة عامة على أداء عملك",
@@ -752,7 +768,7 @@ const i18n = {
     coa: "دليل الحسابات", coa_sub: "جميع حسابات الأستاذ", new_account: "حساب جديد", code: "الكود", account_name: "اسم الحساب", group: "المجموعة",
     journals: "قيود اليومية", journals_sub: "سجل القيد المزدوج لجميع المعاملات", description: "الوصف", source: "المصدر", debits: "مدين", credits: "دائن",
     reports: "التقارير", reports_sub: "البيانات المالية",
-    tb: "ميزان المراجعة", pl: "الأرباح والخسائر", bs: "الميزانية العمومية", ct: "ضريبة الشركات (9%)", ar: "أعمار الذمم المدينة", ap: "أعمار الذمم الدائنة",
+    tb: "ميزان المراجعة", pl: "الأرباح والخسائر", bs: "الميزانية العمومية", ct: "ضريبة الشركات (9%)", vat_report: "ملخص ضريبة القيمة المضافة", ar: "أعمار الذمم المدينة", ap: "أعمار الذمم الدائنة",
     banking: "البنوك", banking_sub: "أرصدة النقد والبنك", account: "الحساب", balance: "الرصيد",
     settings: "الإعدادات", settings_sub: "الشركة والتفضيلات", company_name: "اسم الشركة", currency: "العملة", financial_year: "السنة المالية", trn: "الرقم الضريبي",
     save_settings: "حفظ الإعدادات", backup_restore: "النسخ الاحتياطي والاستعادة", backup_desc: "قم بتنزيل نسخة من جميع بياناتك المحاسبية، أو استعادة من نسخة احتياطية سابقة.",
@@ -763,23 +779,27 @@ const i18n = {
     invoice_date: "تاريخ الفاتورة", due_date: "تاريخ الاستحقاق", line_items: "البنود", item_desc: "المنتج / الوصف", qty: "الكمية", rate: "السعر",
     subtotal: "المجموع الفرعي", add_line: "+ إضافة بند", reference: "المرجع",
     expense_account: "حساب المصروف", paid_to: "دفع إلى (المورد)", bill_date: "تاريخ الفاتورة",
-    assets: "الأصول", liabilities: "الالتزامات", equity: "حقوق الملكية", income: "الإيرادات"
+    assets: "الأصول", liabilities: "الالتزامات", equity: "حقوق الملكية", income: "الإيرادات",
+    tax_invoice: "فاتورة ضريبية", invoice_for: "فاتورة إلى", balance_due: "الرصيد المستحق", print: "طباعة", record_pmt: "تسجيل دفعة", subtotal_label: "المجموع الفرعي", total_label: "الإجمالي", paid_label: "المدفوع",
+    verify_qr: "تحقق بواسطة تطبيق الهيئة", qr_hint: "امسح بتطبيق الهيئة الذكي للتحقق", sales_revenue: "إيرادات المبيعات", service_income: "إيرادات الخدمات"
   }
 };
 let currentLang = 'en';
 
+function t(key){return (i18n[currentLang] && i18n[currentLang][key]) || (i18n.en[key]) || key}
+
 function translateUI() {
-  const dict = i18n[currentLang];
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (dict[key]) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = dict[key];
-      } else {
-        el.textContent = dict[key];
-      }
+    const val = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.textContent = val;
     }
   });
+  // Sidebar rebuilt with translation
+  if (currentCompany) buildSidebar();
 }
 
 document.getElementById('langToggle').addEventListener('click', () => {
@@ -807,6 +827,41 @@ function fmtAED(p){if(p==null||isNaN(p))return 'AED 0.00';const n=Number(p)/100;
 function fmtAEDNum(n){n=Number(n)||0;return 'AED '+n.toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function today(){return new Date().toISOString().slice(0,10)}
 function toast(msg,k){k=k||'info';const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className='toast '+k;t.textContent=msg;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s'},3000);setTimeout(()=>t.remove(),3400)}
+
+/* ============ QR CODE — UAE FTA TLV FORMAT ============ */
+// UAE FTA mandates TLV (Tag-Length-Value) Base64 encoded QR:
+// Tag 1: Seller Name
+// Tag 2: Seller TRN
+// Tag 3: Timestamp (ISO 8601)
+// Tag 4: VAT Total
+// Tag 5: Total with VAT
+function tlvEncode(tag, valueStr) {
+  const encoder = new TextEncoder();
+  const valueBytes = encoder.encode(valueStr);
+  const result = new Uint8Array(2 + valueBytes.length);
+  result[0] = tag;
+  result[1] = valueBytes.length;
+  result.set(valueBytes, 2);
+  return result;
+}
+
+function generateTLVBase64(sellerName, sellerTRN, timestamp, vatTotalFils, totalWithVatFils) {
+  const vat = (vatTotalFils / 100).toFixed(2);
+  const total = (totalWithVatFils / 100).toFixed(2);
+  const t1 = tlvEncode(1, sellerName || '');
+  const t2 = tlvEncode(2, sellerTRN || '');
+  const t3 = tlvEncode(3, timestamp);
+  const t4 = tlvEncode(4, vat);
+  const t5 = tlvEncode(5, total);
+  const combined = new Uint8Array(t1.length + t2.length + t3.length + t4.length + t5.length);
+  let off = 0;
+  [t1, t2, t3, t4, t5].forEach(arr => { combined.set(arr, off); off += arr.length; });
+  // Convert to Base64
+  let binary = '';
+  const bytes = new Uint8Array(combined);
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
 
 /* ============ STATE ============ */
 let currentCompany = null;
@@ -844,27 +899,27 @@ const DEFAULT_ACCOUNTS = [
 
 /* ============ NAV ============ */
 const NAV = [
-  {section:'Main',links:[{view:'dashboard',label:'dashboard',icon:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>'}]},
-  {section:'Sales',links:[
+  {section_en:'Main',section_ar:'الرئيسية',links:[{view:'dashboard',label:'dashboard',icon:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>'}]},
+  {section_en:'Sales',section_ar:'المبيعات',links:[
     {view:'customers',label:'customers',icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'},
     {view:'items',label:'items',icon:'<path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>'},
     {view:'invoices',label:'invoices',icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>'},
     {view:'payments',label:'payments',icon:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/>'}
   ]},
-  {section:'Purchases',links:[
+  {section_en:'Purchases',section_ar:'المشتريات',links:[
     {view:'suppliers',label:'suppliers',icon:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'},
     {view:'expenses',label:'expenses',icon:'<path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'},
     {view:'bills',label:'bills',icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'}
   ]},
-  {section:'Accounting',links:[
+  {section_en:'Accounting',section_ar:'المحاسبة',links:[
     {view:'coa',label:'coa',icon:'<path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>'},
     {view:'journals',label:'journals',icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'},
     {view:'reports',label:'reports',icon:'<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>'}
   ]},
-  {section:'Banking',links:[
+  {section_en:'Banking',section_ar:'البنوك',links:[
     {view:'banking',label:'banking',icon:'<line x1="3" y1="21" x2="21" y2="21"/><line x1="5" y1="21" x2="5" y2="10"/><line x1="9" y1="21" x2="9" y2="10"/><line x1="13" y1="21" x2="13" y2="10"/><line x1="17" y1="21" x2="17" y2="10"/><path d="M2 10L12 3l10 7"/>'}
   ]},
-  {section:'Settings',links:[
+  {section_en:'Settings',section_ar:'الإعدادات',links:[
     {view:'settings',label:'settings',icon:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>'}
   ]}
 ];
@@ -948,8 +1003,8 @@ function switchView(name){
 
 function buildSidebar(){
   const nav=document.getElementById('sidebarNav');
-  const dict=i18n[currentLang];
-  nav.innerHTML=NAV.map(sec=>'<div class="sb-section">'+sec.section+'</div>'+sec.links.map(l=>'<div class="sb-link" data-view="'+l.view+'"><svg class="icon" viewBox="0 0 24 24">'+l.icon+'</svg>'+ (dict[l.label]||l.label) +'</div>').join('')).join('');
+  const isAr = currentLang === 'ar';
+  nav.innerHTML=NAV.map(sec=>'<div class="sb-section">'+(isAr?sec.section_ar:sec.section_en)+'</div>'+sec.links.map(l=>'<div class="sb-link" data-view="'+l.view+'"><svg class="icon" viewBox="0 0 24 24">'+l.icon+'</svg>'+ t(l.label) +'</div>').join('')).join('');
   nav.querySelectorAll('.sb-link').forEach(el=>{
     el.addEventListener('click',()=>{switchView(el.getAttribute('data-view'));document.getElementById('sidebar').classList.remove('open');document.getElementById('sbBackdrop').classList.remove('show')});
   });
@@ -1057,7 +1112,7 @@ function renderDashboard(){
   
   const tbody=document.getElementById('dashRecentInv');
   const recent=allInvoices.slice().sort((a,b)=>b.id-a.id).slice(0,5);
-  if(recent.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty" style="padding:30px;font-size:12px">No invoices yet</td></tr>'}
+  if(recent.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty" style="padding:30px;font-size:12px">'+t('recent_invoices')+' — '+t('invoices')+' 0</td></tr>'}
   else{tbody.innerHTML=recent.map(inv=>'<tr><td class="code-cell">'+escapeHtml(inv.number)+'</td><td>'+escapeHtml(inv.customerName)+'</td><td>'+(inv.date||'').slice(0,10)+'</td><td class="num">'+fmtAED(inv.total)+'</td><td>'+statusBadge(inv)+'</td></tr>').join('')}
 }
 
@@ -1276,25 +1331,58 @@ async function viewInvoice(id){
   const inv=allInvoices.find(i=>i.id===id);
   if(!inv)return;
   const lines=(await dbByIndex('invoice_lines','invoiceId',id))||[];
+  
+  // Generate UAE FTA TLV QR code
+  const timestamp = new Date(inv.createdAt || new Date().toISOString()).toISOString();
+  const tlvBase64 = generateTLVBase64(
+    currentCompany.name || '',
+    currentCompany.trn || '',
+    timestamp,
+    inv.vat || 0,
+    inv.total || 0
+  );
+  
   const html='<div style="font-size:13px">'+
-    '<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div><div style="font-weight:700;font-size:16px">Tax Invoice / فاتورة ضريبية</div><div style="color:var(--text-3);font-size:12px;margin-top:4px">'+escapeHtml(inv.number)+' · Date: '+inv.date+'</div></div><div style="text-align:right"><div style="font-weight:600">'+escapeHtml(inv.customerName)+'</div>'+(inv.customerTrn?'<div style="color:var(--text-3);font-size:12px">TRN: '+escapeHtml(inv.customerTrn)+'</div>':'')+'<div style="color:var(--text-3);font-size:12px">Due: '+inv.dueDate+'</div></div></div>'+
-    '<table class="table" style="margin-bottom:12px"><thead><tr><th>Item</th><th style="text-align:right">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">VAT</th><th style="text-align:right">Amount</th></tr></thead><tbody>'+
+    // Header with QR
+    '<div style="display:flex;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap">'+
+      '<div style="flex:1;min-width:220px"><div style="font-weight:700;font-size:16px">'+t('tax_invoice')+'</div><div style="color:var(--text-3);font-size:12px;margin-top:4px">'+escapeHtml(inv.number)+' · '+t('date')+': '+inv.date+'</div>'+
+      '<div style="margin-top:12px"><div style="color:var(--text-3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px">'+t('customer')+'</div><div style="font-weight:600;margin-top:2px">'+escapeHtml(inv.customerName)+'</div>'+(inv.customerTrn?'<div style="color:var(--text-3);font-size:12px">TRN: '+escapeHtml(inv.customerTrn)+'</div>':'')+'</div>'+
+      '</div>'+
+      '<div class="qr-wrap"><div id="qrCanvasHolder"></div><div class="qr-label">'+t('verify_qr')+'</div></div>'+
+    '</div>'+
+    '<table class="table" style="margin-bottom:12px"><thead><tr><th>'+t('item_desc')+'</th><th style="text-align:right">'+t('qty')+'</th><th style="text-align:right">'+t('rate')+'</th><th style="text-align:right">'+t('vat')+'</th><th style="text-align:right">'+t('amount')+'</th></tr></thead><tbody>'+
     lines.map(l=>'<tr><td>'+escapeHtml(l.description||'Item')+'</td><td class="num">'+l.qty+'</td><td class="num">'+fmtAED(l.rate)+'</td><td class="num">'+(l.vatRate>0?l.vatRate+'%':'Exempt')+'</td><td class="num">'+fmtAED(l.amount)+'</td></tr>').join('')+
     '</tbody></table>'+
     '<div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:14px">'+
-      '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">Subtotal</span><span class="mono" style="font-weight:600">'+fmtAED(inv.subtotal)+'</span></div>'+
-      (inv.vat?'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">VAT</span><span class="mono" style="font-weight:600">'+fmtAED(inv.vat)+'</span></div>':'')+
-      '<div style="display:flex;justify-content:space-between;padding:12px 0 4px;border-top:2px solid var(--border-2);margin-top:8px;font-weight:700;font-size:15px"><span>Total</span><span class="mono" style="color:var(--primary);font-size:16px">'+fmtAED(inv.total)+'</span></div>'+
-      '<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--success)"><span>Paid</span><span class="mono">'+fmtAED(inv.paid||0)+'</span></div>'+
-      '<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--danger);font-weight:600"><span>Balance Due</span><span class="mono">'+fmtAED((inv.total||0)-(inv.paid||0))+'</span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">'+t('subtotal')+'</span><span class="mono" style="font-weight:600">'+fmtAED(inv.subtotal)+'</span></div>'+
+      (inv.vat?'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">'+t('vat')+'</span><span class="mono" style="font-weight:600">'+fmtAED(inv.vat)+'</span></div>':'')+
+      '<div style="display:flex;justify-content:space-between;padding:12px 0 4px;border-top:2px solid var(--border-2);margin-top:8px;font-weight:700;font-size:15px"><span>'+t('total_label')+'</span><span class="mono" style="color:var(--primary);font-size:16px">'+fmtAED(inv.total)+'</span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--success)"><span>'+t('paid_label')+'</span><span class="mono">'+fmtAED(inv.paid||0)+'</span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--danger);font-weight:600"><span>'+t('balance_due')+'</span><span class="mono">'+fmtAED((inv.total||0)-(inv.paid||0))+'</span></div>'+
     '</div>'+
     '<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">'+
-      (inv.status!=='paid'?'<button class="btn btn-primary" onclick="quickPayInvoice('+inv.id+')">Record Payment</button>':'')+
-      '<button class="btn btn-secondary" onclick="window.print()">Print</button>'+
+      (inv.status!=='paid'?'<button class="btn btn-primary" onclick="quickPayInvoice('+inv.id+')">'+t('record_pmt')+'</button>':'')+
+      '<button class="btn btn-secondary" onclick="window.print()">'+t('print')+'</button>'+
     '</div>'+
   '</div>';
   document.getElementById('journalDetailBody').innerHTML=html;
   document.getElementById('journalModal').classList.add('show');
+  
+  // Generate QR code into the placeholder
+  setTimeout(() => {
+    const holder = document.getElementById('qrCanvasHolder');
+    if (holder && typeof QRCode !== 'undefined') {
+      holder.innerHTML = '';
+      new QRCode(holder, {
+        text: tlvBase64,
+        width: 110,
+        height: 110,
+        colorDark: '#0f172a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+  }, 50);
 }
 
 async function deleteInvoice(id){
@@ -1608,8 +1696,8 @@ function renderCOA(){
 }
 document.querySelectorAll('.stat-chip').forEach(c=>{
   c.addEventListener('click',()=>{
-    const t=c.getAttribute('data-coatype');
-    coaTypeFilter=coaTypeFilter===t?'':t;
+    const t2=c.getAttribute('data-coatype');
+    coaTypeFilter=coaTypeFilter===t2?'':t2;
     renderCOA();
   });
 });
@@ -1673,14 +1761,15 @@ function renderReports(){
   else if(currentReport==='pl')el.innerHTML=renderPL();
   else if(currentReport==='bs')el.innerHTML=renderBalanceSheet();
   else if(currentReport==='ct')el.innerHTML=renderCorporateTax();
+  else if(currentReport==='vat')el.innerHTML=renderVATSummary();
   else if(currentReport==='ar')el.innerHTML=renderARAging();
   else if(currentReport==='ap')el.innerHTML=renderAPAging();
 }
-document.querySelectorAll('.report-tab').forEach(t=>{
-  t.addEventListener('click',()=>{
+document.querySelectorAll('.report-tab').forEach(t2=>{
+  t2.addEventListener('click',()=>{
     document.querySelectorAll('.report-tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    currentReport=t.getAttribute('data-report');
+    t2.classList.add('active');
+    currentReport=t2.getAttribute('data-report');
     renderReports();
   });
 });
@@ -1768,9 +1857,8 @@ function renderCorporateTax(){
     if(a.type==='income')revenue+=bal;else if(a.type==='expense')expenses+=bal;
   });
   const netProfit=revenue-expenses;
-  const threshold=37500000; // AED 375,000 in fils (x100)
+  const threshold=37500000;
   let tax=0;
-  let taxableIncome=netProfit;
   let reliefMsg='';
   if(netProfit<=0){tax=0;reliefMsg='No tax payable on a loss.'}
   else if(revenue<=300000000){tax=0;reliefMsg='Small Business Relief applies (Revenue ≤ AED 3,000,000).'}
@@ -1783,13 +1871,36 @@ function renderCorporateTax(){
   html+='<div class="bs-row"><span class="k">Total Expenses</span><span class="v">-'+fmtAED(expenses)+'</span></div>';
   html+='<div class="bs-total"><span>Net Profit Before Tax</span><span class="v">'+fmtAED(netProfit)+'</span></div>';
   html+='<div class="bs-row" style="margin-top:12px"><span class="k">Less: Threshold Exemption (AED 375,000)</span><span class="v">-'+fmtAED(Math.min(netProfit, threshold))+'</span></div>';
-  html+='<div class="bs-total"><span>Taxable Income</span><span class="v">'+fmtAED(taxableIncome>threshold?(taxableIncome-threshold):0)+'</span></div>';
+  html+='<div class="bs-total"><span>Taxable Income</span><span class="v">'+fmtAED(netProfit>threshold?(netProfit-threshold):0)+'</span></div>';
   html+='<div style="margin-top:24px;padding:20px;border-radius:10px;background:var(--warning-soft);border:1px solid #fde68a">';
   html+='<div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--warning);margin-bottom:6px">Estimated Corporate Tax Payable</div>';
   html+='<div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--warning)">'+fmtAED(tax)+'</div>';
   html+='<div style="font-size:12px;color:var(--text-3);margin-top:8px">'+reliefMsg+'</div>';
   html+='</div>';
   html+='<div style="margin-top:16px;font-size:12px;color:var(--text-3);line-height:1.6">Note: This is an estimate for internal use. UAE Corporate Tax Law has specific rules on exemptions, deductions, and Free Zone Qualifying Income. Consult a tax advisor for your final filing.</div>';
+  html+='</div>';
+  return html;
+}
+
+function renderVATSummary(){
+  // Output VAT (from sales invoices)
+  let outputVAT=0;
+  allInvoices.filter(i=>i.status!=='draft').forEach(i=>{outputVAT+=(i.vat||0)});
+  // Input VAT (from bills + expenses that had VAT)
+  let inputVAT=0;
+  allBills.forEach(b=>{inputVAT+=(b.vat||0)});
+  
+  const netVAT=outputVAT-inputVAT;
+  const payable = netVAT > 0;
+  
+  let html='<div class="table-wrap" style="padding:24px">';
+  html+='<h3 style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--primary)">UAE VAT Summary (5%)</h3>';
+  html+='<div class="bs-row"><span class="k">Output VAT (Sales)</span><span class="v">'+fmtAED(outputVAT)+'</span></div>';
+  html+='<div class="bs-row"><span class="k">Input VAT (Purchases)</span><span class="v">-'+fmtAED(inputVAT)+'</span></div>';
+  html+='<div class="bs-total"><span>'+(payable?'Net VAT Payable to FTA':'Net VAT Refundable from FTA')+'</span><span class="v" style="color:'+(payable?'var(--danger)':'var(--success)')+'">'+fmtAED(Math.abs(netVAT))+'</span></div>';
+  html+='<div style="margin-top:24px;padding:16px;border-radius:10px;background:var(--info-soft);border:1px solid #a5f3fc;font-size:12px;color:var(--info-text);line-height:1.6">';
+  html+='UAE VAT is filed quarterly. Submit this summary to your tax advisor when preparing your VAT return. Filing deadline is 28 days after the end of the tax period.';
+  html+='</div>';
   html+='</div>';
   return html;
 }
