@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#f4f6f9;--surface:#fff;--subtle:#f8fafc;--hover:#f1f5f9;--border:#e2e8f0;--border-2:#cbd5e1;--text-1:#0f172a;--text-2:#334155;--text-3:#64748b;--text-4:#94a3b8;--primary:#0f766e;--primary-2:#0d9488;--primary-soft:#ccfbf1;--success:#16a34a;--success-soft:#f0fdf4;--danger:#dc2626;--danger-soft:#fef2f2;--warning:#d97706;--warning-soft:#fffbeb;--purple:#7c3aed;--info-soft:#ecfeff;--info-text:#155e75;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
@@ -89,7 +88,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 .sb-link .icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .main{display:flex;flex-direction:column;min-height:100vh}
 .topbar{height:60px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10;gap:16px}
-.tb-left{display:flex;align-items:center;gap:14px;min-width:0;flex:1}
+.tb-left{display:flex;align-items:center;gap:14px;min-width:0}
 .tb-menu{display:none;background:none;border:none;padding:8px;color:var(--text-2)}
 .tb-menu svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .tb-company{display:flex;align-items:center;gap:10px;min-width:0}
@@ -265,47 +264,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 .qr-box .qr-label{font-size:9.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;text-align:center;line-height:1.3}
 .qr-box .qr-hint{font-size:9px;color:var(--text-4);text-align:center;line-height:1.3}
 .actions-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
-
-/* ============ ENHANCED UX ============ */
-.fab{position:fixed;bottom:24px;right:24px;z-index:80;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border:none;box-shadow:0 8px 24px rgba(13,148,136,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s ease}
-.fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(13,148,136,0.5)}
-.fab.open{transform:rotate(45deg);background:var(--danger)}
-.fab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
-.fab-menu{position:fixed;bottom:90px;right:24px;z-index:79;display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;transform:translateY(20px);transition:all .25s cubic-bezier(0.16,1,0.3,1)}
-.fab-menu.open{opacity:1;pointer-events:auto;transform:translateY(0)}
-.fab-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:8px 16px 8px 8px;box-shadow:0 4px 12px rgba(15,23,42,0.1);cursor:pointer;transition:all .15s ease;white-space:nowrap;font-size:13px;font-weight:600;color:var(--text-2)}
-.fab-item:hover{background:var(--primary-soft);color:var(--primary);border-color:var(--primary-2);transform:translateX(-4px)}
-.fab-item .fab-icon{width:32px;height:32px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.fab-item .fab-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media (max-width:900px){.fab{bottom:20px;right:20px}.fab-menu{bottom:86px;right:20px}}
-
-.wizard-backdrop{position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.wizard-backdrop.show{display:flex}
-.wizard{background:var(--surface);border-radius:18px;box-shadow:0 24px 60px rgba(15,23,42,0.3);max-width:520px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
-.wizard-head{padding:24px 28px 16px;border-bottom:1px solid var(--border);position:relative}
-.wizard-title{font-size:20px;font-weight:800;letter-spacing:-0.3px;color:var(--text-1);margin-bottom:4px}
-.wizard-sub{font-size:13px;color:var(--text-3)}
-.wizard-close{position:absolute;top:20px;right:20px;background:transparent;border:none;font-size:22px;color:var(--text-3);cursor:pointer;padding:4px 8px;border-radius:6px}
-.wizard-close:hover{background:var(--hover);color:var(--text-1)}
-.wizard-progress{display:flex;gap:6px;padding:16px 28px 0}
-.wizard-progress .w-step{height:4px;flex:1;background:var(--border);border-radius:2px;overflow:hidden}
-.wizard-progress .w-step.active{background:var(--primary)}
-.wizard-body{padding:24px 28px;overflow-y:auto;flex:1}
-.wizard-icon{width:64px;height:64px;border-radius:16px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:32px}
-.wizard-body h3{font-size:17px;font-weight:700;margin-bottom:8px;color:var(--text-1)}
-.wizard-body p{font-size:13.5px;color:var(--text-3);line-height:1.6;margin-bottom:16px}
-.wizard-body ul{margin:0 0 16px 20px;font-size:13px;color:var(--text-2);line-height:1.8}
-.wizard-body ul li{margin-bottom:4px}
-.wizard-foot{padding:16px 28px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:10px}
-
-@keyframes kpiPulse{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
-.kpi-value.animating{animation:kpiPulse .4s ease}
-
-.empty-cta{margin-top:8px}
-.empty-cta .btn{margin:0 auto}
-
-.kbd{display:inline-block;padding:2px 6px;border-radius:4px;background:var(--subtle);border:1px solid var(--border);font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--text-2);margin:0 2px}
-
 @media (max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.stats-strip{grid-template-columns:repeat(3,1fr)}.dash-row{grid-template-columns:1fr}}
 @media (max-width:900px){
   .app{grid-template-columns:1fr}
@@ -327,9 +285,10 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 }
 @media (max-width:640px){.kpi-grid{grid-template-columns:1fr}.stats-strip{grid-template-columns:1fr 1fr}.invoice-header{flex-direction:column;align-items:center}}
 
+/* ============ PRINT STYLES ============ */
 @media print {
   body{background:#fff}
-  .sidebar,.topbar,.sb-backdrop,.toast-container,.actions-bar,.modal-close,.modal-foot,.report-tabs,.page-head,.toolbar,.kpi-grid,.alert-banner,.dash-row,.fab,.fab-menu{display:none !important}
+  .sidebar,.topbar,.sb-backdrop,.toast-container,.actions-bar,.modal-close,.modal-foot,.report-tabs,.page-head,.toolbar,.kpi-grid,.alert-banner,.dash-row{display:none !important}
   .app{display:block !important;grid-template-columns:1fr !important}
   .page{display:none !important;padding:0 !important}
   .modal-bg{position:static !important;background:none !important;display:block !important;padding:0 !important}
@@ -352,7 +311,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
       <h1 class="brand-headline">Smart accounting for <em>UAE SMEs</em>.</h1>
       <p class="brand-sub">VAT-compliant invoicing with QR codes, corporate tax tracking, and bilingual support.</p>
     </div>
-    <div class="brand-footer">v1.4.0 · UAE Edition · FTA Compliant</div>
+    <div class="brand-footer">v1.3.0 · UAE Edition · FTA Compliant</div>
   </aside>
   <main class="form-panel">
     <div class="form-wrap">
@@ -415,7 +374,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
         </div>
         <div class="tb-search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="globalSearch" placeholder="Search invoices, customers, items…  ( / )" autocomplete="off">
+          <input type="text" id="globalSearch" placeholder="Search invoices, customers, items…" autocomplete="off">
           <div class="tb-search-results" id="searchResults"></div>
         </div>
       </div>
@@ -437,28 +396,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
         <div class="kpi" data-goto="expenses"><div class="kpi-top"><span class="kpi-label" data-i18n="expenses">Expenses</span><div class="kpi-icon amber"><svg viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-value" id="kpiExp">AED 0.00</div><div class="kpi-meta" data-i18n="kpi_exp_meta">Total expenses</div></div>
         <div class="kpi" data-goto="reports"><div class="kpi-top"><span class="kpi-label" data-i18n="net_profit">Net Profit</span><div class="kpi-icon purple"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg></div></div><div class="kpi-value" id="kpiProfit">AED 0.00</div><div class="kpi-meta" data-i18n="kpi_profit_meta">Revenue − Expenses</div></div>
       </div>
-
-      <div class="dash-row">
-        <div class="dash-card">
-          <div class="dash-card-head"><span>Revenue vs Expenses</span></div>
-          <div class="dash-card-body" style="padding:16px"><canvas id="chartRevExp" style="max-height:220px"></canvas></div>
-        </div>
-        <div class="dash-card">
-          <div class="dash-card-head"><span>Cash Flow Trend</span></div>
-          <div class="dash-card-body" style="padding:16px"><canvas id="chartCashFlow" style="max-height:220px"></canvas></div>
-        </div>
-      </div>
-      <div class="dash-row" style="margin-top:16px">
-        <div class="dash-card">
-          <div class="dash-card-head"><span>Expense Breakdown</span></div>
-          <div class="dash-card-body" style="padding:16px"><canvas id="chartExpense" style="max-height:220px"></canvas></div>
-        </div>
-        <div class="dash-card">
-          <div class="dash-card-head"><span>Top Customers by Revenue</span></div>
-          <div class="dash-card-body" style="padding:16px"><canvas id="chartTopCustomers" style="max-height:220px"></canvas></div>
-        </div>
-      </div>
-
       <div class="dash-row">
         <div class="dash-card">
           <div class="dash-card-head"><span>Top Customers</span></div>
@@ -626,7 +563,13 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
     <div class="field-row">
       <div class="field"><label class="field-label" data-i18n="trn">TRN</label><input type="text" id="cTrn" class="input mono" maxlength="15"></div>
       <div class="field"><label class="field-label" data-i18n="emirate">Emirate</label><select id="cEmirate" class="select">
-        <option value="AUH">Abu Dhabi</option><option value="DXB" selected>Dubai</option><option value="SHJ">Sharjah</option><option value="AJM">Ajman</option><option value="UAQ">Umm Al Quwain</option><option value="RAK">Ras Al Khaimah</option><option value="FUJ">Fujairah</option>
+        <option value="AUH">Abu Dhabi</option>
+        <option value="DXB" selected>Dubai</option>
+        <option value="SHJ">Sharjah</option>
+        <option value="AJM">Ajman</option>
+        <option value="UAQ">Umm Al Quwain</option>
+        <option value="RAK">Ras Al Khaimah</option>
+        <option value="FUJ">Fujairah</option>
       </select></div>
     </div>
     <div class="field"><label class="field-label" data-i18n="address">Address</label><textarea id="cAddress" class="textarea" maxlength="300"></textarea></div>
@@ -668,7 +611,13 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
     <div class="field-row">
       <div class="field"><label class="field-label" data-i18n="trn">TRN</label><input type="text" id="sTrn" class="input mono" maxlength="15"></div>
       <div class="field"><label class="field-label" data-i18n="emirate">Emirate</label><select id="sEmirate" class="select">
-        <option value="AUH">Abu Dhabi</option><option value="DXB" selected>Dubai</option><option value="SHJ">Sharjah</option><option value="AJM">Ajman</option><option value="UAQ">Umm Al Quwain</option><option value="RAK">Ras Al Khaimah</option><option value="FUJ">Fujairah</option>
+        <option value="AUH">Abu Dhabi</option>
+        <option value="DXB" selected>Dubai</option>
+        <option value="SHJ">Sharjah</option>
+        <option value="AJM">Ajman</option>
+        <option value="UAQ">Umm Al Quwain</option>
+        <option value="RAK">Ras Al Khaimah</option>
+        <option value="FUJ">Fujairah</option>
       </select></div>
     </div>
     <div class="field"><label class="field-label" data-i18n="address">Address</label><textarea id="sAddress" class="textarea" maxlength="300"></textarea></div>
@@ -783,6 +732,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
   <div class="modal-foot"><button class="btn btn-secondary" data-close="billModal" data-i18n="cancel">Cancel</button><button class="btn btn-primary" id="saveBillBtn" data-i18n="save_bill">Save Bill</button></div>
 </div></div>
 
+<!-- INVOICE VIEW MODAL (printable) -->
 <div class="modal-bg" id="invoiceViewModal"><div class="modal xl printable" id="invoiceViewModalBox">
   <div class="modal-head"><div class="modal-title" id="invoiceViewModalTitle">Tax Invoice</div><button class="modal-close" data-close="invoiceViewModal">×</button></div>
   <div class="modal-body invoice-print" id="invoiceViewBody"></div>
@@ -796,12 +746,14 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
   </div>
 </div></div>
 
+<!-- JOURNAL VIEW MODAL -->
 <div class="modal-bg" id="journalModal"><div class="modal lg">
   <div class="modal-head"><div class="modal-title" id="journalModalTitle">Journal Entry</div><button class="modal-close" data-close="journalModal">×</button></div>
   <div class="modal-body" id="journalDetailBody"></div>
   <div class="modal-foot"><button class="btn btn-secondary" data-close="journalModal" data-i18n="close">Close</button></div>
 </div></div>
 
+<!-- CUSTOMER STATEMENT MODAL -->
 <div class="modal-bg" id="statementModal"><div class="modal xl printable">
   <div class="modal-head"><div class="modal-title" id="statementTitle">Customer Statement</div><button class="modal-close" data-close="statementModal">×</button></div>
   <div class="modal-body" id="statementBody"></div>
@@ -813,61 +765,93 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}button{cursor
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- FLOATING ACTION BUTTON -->
-<button class="fab" id="fabBtn" title="Quick actions"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-<div class="fab-menu" id="fabMenu">
-  <div class="fab-item" data-fab="invoice"><div class="fab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>New Invoice</div>
-  <div class="fab-item" data-fab="expense"><div class="fab-icon"><svg viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>Record Expense</div>
-  <div class="fab-item" data-fab="payment"><div class="fab-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>Record Payment</div>
-  <div class="fab-item" data-fab="customer"><div class="fab-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>Add Customer</div>
-  <div class="fab-item" data-fab="item"><div class="fab-icon"><svg viewBox="0 0 24 24"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></div>Add Item</div>
-</div>
-
-<!-- FIRST-TIME WIZARD -->
-<div class="wizard-backdrop" id="wizardBackdrop">
-  <div class="wizard">
-    <div class="wizard-head">
-      <div class="wizard-title" id="wizardTitle">Welcome to LedgerPro</div>
-      <div class="wizard-sub" id="wizardSub">Let's get you set up in 3 quick steps.</div>
-      <button class="wizard-close" id="wizardClose">×</button>
-    </div>
-    <div class="wizard-progress">
-      <div class="w-step active" data-step="1"></div>
-      <div class="w-step" data-step="2"></div>
-      <div class="w-step" data-step="3"></div>
-    </div>
-    <div class="wizard-body" id="wizardBody"></div>
-    <div class="wizard-foot">
-      <button class="btn btn-ghost" id="wizardSkip">Skip Tour</button>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-secondary" id="wizardPrev" style="display:none">Back</button>
-        <button class="btn btn-primary" id="wizardNext">Next</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
+  <script>
 /* ============ I18N DICTIONARY ============ */
 const i18n = {
-  en: {dashboard:"Dashboard",dash_sub:"Overview of your business performance",receivables:"Receivables",kpi_recv_meta:"Money customers owe you",payables:"Payables",kpi_pay_meta:"Money you owe suppliers",cash_bank:"Cash & Bank",kpi_cash_meta:"Available balances",revenue:"Revenue",kpi_rev_meta:"Total sales",expenses:"Expenses",kpi_exp_meta:"Total expenses",net_profit:"Net Profit",kpi_profit_meta:"Revenue − Expenses",recent_invoices:"Recent Invoices",inv_num:"Invoice #",customer:"Customer",date:"Date",amount:"Amount",status:"Status",customers:"Customers",new_customer:"New Customer",contact:"Contact",outstanding:"Outstanding",total_sales:"Total Sales",actions:"Actions",items:"Items",new_item:"New Item",item:"Item",type:"Type",sale_price:"Sale Price",purchase_cost:"Purchase Cost",suppliers:"Suppliers",new_supplier:"New Supplier",supplier:"Supplier",invoices:"Invoices",new_invoice:"New Invoice",due:"Due",total:"Total",paid:"Paid",payments:"Payments",record_payment:"Record Payment",party:"Party",method:"Method",record_expense:"Record Expense",category:"Category",paid_from:"Paid From",notes:"Notes",bills:"Supplier Bills",new_bill:"New Bill",bill_num:"Bill #",coa:"Chart of Accounts",coa_sub:"All ledger accounts",new_account:"New Account",code:"Code",account_name:"Account Name",group:"Group",journals:"Journal Entries",journals_sub:"Double-entry record of all transactions",description:"Description",source:"Source",debits:"Debits",credits:"Credits",reports:"Reports",reports_sub:"Financial statements",tb:"Trial Balance",pl:"Profit & Loss",bs:"Balance Sheet",ct:"Corporate Tax (9%)",vat_report:"VAT Summary",ar:"Receivables Aging",ap:"Payables Aging",banking:"Banking",banking_sub:"Cash and bank account balances",account:"Account",balance:"Balance",settings:"Settings",settings_sub:"Company and preferences",company_name:"Company Name",currency:"Currency",financial_year:"Financial Year",trn:"TRN",save_settings:"Save Settings",backup_restore:"Backup & Restore",backup_desc:"Download a copy of all your accounting data, or restore from a previous backup.",danger_zone:"Danger Zone",reset_data:"Reset All Data for This Company",cancel:"Cancel",save_customer:"Save Customer",save_item:"Save Item",save_supplier:"Save Supplier",save_account:"Save Account",save_post:"Save & Post Invoice",save_payment:"Save Payment",save_expense:"Save Expense",save_bill:"Save Bill",close:"Close",switch:"Switch",name:"Name",phone:"Phone",email:"Email",emirate:"Emirate",address:"Address",item_name:"Item Name",sku:"SKU",vat_rate:"VAT Rate",vat:"VAT",hsn:"HSN/SAC",unit:"Unit",invoice_date:"Invoice Date",due_date:"Due Date",line_items:"Line Items",item_desc:"Item / Description",qty:"Qty",rate:"Rate",subtotal:"Subtotal",add_line:"+ Add Line",reference:"Reference #",expense_account:"Expense Account",paid_to:"Paid To (Vendor)",bill_date:"Bill Date",assets:"Assets",liabilities:"Liabilities",equity:"Equity",income:"Income",tax_invoice:"Tax Invoice",balance_due:"Balance Due",print:"Print",record_pmt:"Record Payment",paid_label:"Paid",verify_qr:"FTA Compliant QR",qr_hint:"Scan with FTA Smart App"},
-  ar: {dashboard:"لوحة القيادة",dash_sub:"نظرة عامة على أداء عملك",receivables:"المستحقات",kpi_recv_meta:"الأموال المستحقة من العملاء",payables:"المدفوعات",kpi_pay_meta:"الأموال المستحقة للموردين",cash_bank:"النقد والبنك",kpi_cash_meta:"الأرصدة المتاحة",revenue:"الإيرادات",kpi_rev_meta:"إجمالي المبيعات",expenses:"المصروفات",kpi_exp_meta:"إجمالي المصروفات",net_profit:"صافي الربح",kpi_profit_meta:"الإيرادات - المصروفات",recent_invoices:"أحدث الفواتير",inv_num:"رقم الفاتورة",customer:"العميل",date:"التاريخ",amount:"المبلغ",status:"الحالة",customers:"العملاء",new_customer:"عميل جديد",contact:"جهة الاتصال",outstanding:"المستحق",total_sales:"إجمالي المبيعات",actions:"إجراءات",items:"المنتجات",new_item:"منتج جديد",item:"المنتج",type:"النوع",sale_price:"سعر البيع",purchase_cost:"تكلفة الشراء",suppliers:"الموردين",new_supplier:"مورد جديد",supplier:"المورد",invoices:"الفواتير",new_invoice:"فاتورة جديدة",due:"تاريخ الاستحقاق",total:"الإجمالي",paid:"المدفوع",payments:"المدفوعات",record_payment:"تسجيل دفعة",party:"الطرف",method:"طريقة الدفع",record_expense:"تسجيل مصروف",category:"الفئة",paid_from:"دفع من",notes:"ملاحظات",bills:"فواتير الموردين",new_bill:"فاتورة مورد جديدة",bill_num:"رقم الفاتورة",coa:"دليل الحسابات",coa_sub:"جميع حسابات الأستاذ",new_account:"حساب جديد",code:"الكود",account_name:"اسم الحساب",group:"المجموعة",journals:"قيود اليومية",journals_sub:"سجل القيد المزدوج لجميع المعاملات",description:"الوصف",source:"المصدر",debits:"مدين",credits:"دائن",reports:"التقارير",reports_sub:"البيانات المالية",tb:"ميزان المراجعة",pl:"الأرباح والخسائر",bs:"الميزانية العمومية",ct:"ضريبة الشركات (9%)",vat_report:"ملخص ضريبة القيمة المضافة",ar:"أعمار الذمم المدينة",ap:"أعمار الذمم الدائنة",banking:"البنوك",banking_sub:"أرصدة النقد والبنك",account:"الحساب",balance:"الرصيد",settings:"الإعدادات",settings_sub:"الشركة والتفضيلات",company_name:"اسم الشركة",currency:"العملة",financial_year:"السنة المالية",trn:"الرقم الضريبي",save_settings:"حفظ الإعدادات",backup_restore:"النسخ الاحتياطي والاستعادة",backup_desc:"قم بتنزيل نسخة من جميع بياناتك المحاسبية، أو استعادة من نسخة احتياطية سابقة.",danger_zone:"منطقة الخطر",reset_data:"إعادة تعيين جميع البيانات لهذه الشركة",cancel:"إلغاء",save_customer:"حفظ العميل",save_item:"حفظ المنتج",save_supplier:"حفظ المورد",save_account:"حفظ الحساب",save_post:"حفظ وترحيل الفاتورة",save_payment:"حفظ الدفعة",save_expense:"حفظ المصروف",save_bill:"حفظ الفاتورة",close:"إغلاق",switch:"تبديل",name:"الاسم",phone:"الهاتف",email:"البريد الإلكتروني",emirate:"الإمارة",address:"العنوان",item_name:"اسم المنتج",sku:"رمز المنتج",vat_rate:"نسبة الضريبة",vat:"ضريبة القيمة المضافة",hsn:"رمز HSN/SAC",unit:"الوحدة",invoice_date:"تاريخ الفاتورة",due_date:"تاريخ الاستحقاق",line_items:"البنود",item_desc:"المنتج / الوصف",qty:"الكمية",rate:"السعر",subtotal:"المجموع الفرعي",add_line:"+ إضافة بند",reference:"المرجع",expense_account:"حساب المصروف",paid_to:"دفع إلى (المورد)",bill_date:"تاريخ الفاتورة",assets:"الأصول",liabilities:"الالتزامات",equity:"حقوق الملكية",income:"الإيرادات",tax_invoice:"فاتورة ضريبية",balance_due:"الرصيد المستحق",print:"طباعة",record_pmt:"تسجيل دفعة",paid_label:"المدفوع",verify_qr:"متوافق مع الهيئة الاتحادية للضرائب",qr_hint:"امسح بتطبيق الهيئة الذكي"}
+  en: {
+    dashboard:"Dashboard",dash_sub:"Overview of your business performance",
+    receivables:"Receivables",kpi_recv_meta:"Money customers owe you",
+    payables:"Payables",kpi_pay_meta:"Money you owe suppliers",
+    cash_bank:"Cash & Bank",kpi_cash_meta:"Available balances",
+    revenue:"Revenue",kpi_rev_meta:"Total sales",
+    expenses:"Expenses",kpi_exp_meta:"Total expenses",
+    net_profit:"Net Profit",kpi_profit_meta:"Revenue − Expenses",
+    recent_invoices:"Recent Invoices",inv_num:"Invoice #",customer:"Customer",date:"Date",amount:"Amount",status:"Status",
+    customers:"Customers",new_customer:"New Customer",contact:"Contact",outstanding:"Outstanding",total_sales:"Total Sales",actions:"Actions",
+    items:"Items",new_item:"New Item",item:"Item",type:"Type",sale_price:"Sale Price",purchase_cost:"Purchase Cost",
+    suppliers:"Suppliers",new_supplier:"New Supplier",supplier:"Supplier",
+    invoices:"Invoices",new_invoice:"New Invoice",due:"Due",total:"Total",paid:"Paid",
+    payments:"Payments",record_payment:"Record Payment",party:"Party",method:"Method",
+    record_expense:"Record Expense",category:"Category",paid_from:"Paid From",notes:"Notes",
+    bills:"Supplier Bills",new_bill:"New Bill",bill_num:"Bill #",
+    coa:"Chart of Accounts",coa_sub:"All ledger accounts",new_account:"New Account",code:"Code",account_name:"Account Name",group:"Group",
+    journals:"Journal Entries",journals_sub:"Double-entry record of all transactions",description:"Description",source:"Source",debits:"Debits",credits:"Credits",
+    reports:"Reports",reports_sub:"Financial statements",
+    tb:"Trial Balance",pl:"Profit & Loss",bs:"Balance Sheet",ct:"Corporate Tax (9%)",vat_report:"VAT Summary",ar:"Receivables Aging",ap:"Payables Aging",
+    banking:"Banking",banking_sub:"Cash and bank account balances",account:"Account",balance:"Balance",
+    settings:"Settings",settings_sub:"Company and preferences",company_name:"Company Name",currency:"Currency",financial_year:"Financial Year",trn:"TRN",
+    save_settings:"Save Settings",backup_restore:"Backup & Restore",backup_desc:"Download a copy of all your accounting data, or restore from a previous backup.",
+    danger_zone:"Danger Zone",reset_data:"Reset All Data for This Company",
+    cancel:"Cancel",save_customer:"Save Customer",save_item:"Save Item",save_supplier:"Save Supplier",save_account:"Save Account",save_post:"Save & Post Invoice",save_payment:"Save Payment",save_expense:"Save Expense",save_bill:"Save Bill",close:"Close",
+    switch:"Switch",name:"Name",phone:"Phone",email:"Email",emirate:"Emirate",address:"Address",
+    item_name:"Item Name",sku:"SKU",vat_rate:"VAT Rate",vat:"VAT",hsn:"HSN/SAC",unit:"Unit",
+    invoice_date:"Invoice Date",due_date:"Due Date",line_items:"Line Items",item_desc:"Item / Description",qty:"Qty",rate:"Rate",
+    subtotal:"Subtotal",add_line:"+ Add Line",reference:"Reference #",
+    expense_account:"Expense Account",paid_to:"Paid To (Vendor)",bill_date:"Bill Date",
+    assets:"Assets",liabilities:"Liabilities",equity:"Equity",income:"Income",
+    tax_invoice:"Tax Invoice",balance_due:"Balance Due",print:"Print",record_pmt:"Record Payment",paid_label:"Paid",
+    verify_qr:"FTA Compliant QR",qr_hint:"Scan with FTA Smart App"
+  },
+  ar: {
+    dashboard:"لوحة القيادة",dash_sub:"نظرة عامة على أداء عملك",
+    receivables:"المستحقات",kpi_recv_meta:"الأموال المستحقة من العملاء",
+    payables:"المدفوعات",kpi_pay_meta:"الأموال المستحقة للموردين",
+    cash_bank:"النقد والبنك",kpi_cash_meta:"الأرصدة المتاحة",
+    revenue:"الإيرادات",kpi_rev_meta:"إجمالي المبيعات",
+    expenses:"المصروفات",kpi_exp_meta:"إجمالي المصروفات",
+    net_profit:"صافي الربح",kpi_profit_meta:"الإيرادات - المصروفات",
+    recent_invoices:"أحدث الفواتير",inv_num:"رقم الفاتورة",customer:"العميل",date:"التاريخ",amount:"المبلغ",status:"الحالة",
+    customers:"العملاء",new_customer:"عميل جديد",contact:"جهة الاتصال",outstanding:"المستحق",total_sales:"إجمالي المبيعات",actions:"إجراءات",
+    items:"المنتجات",new_item:"منتج جديد",item:"المنتج",type:"النوع",sale_price:"سعر البيع",purchase_cost:"تكلفة الشراء",
+    suppliers:"الموردين",new_supplier:"مورد جديد",supplier:"المورد",
+    invoices:"الفواتير",new_invoice:"فاتورة جديدة",due:"تاريخ الاستحقاق",total:"الإجمالي",paid:"المدفوع",
+    payments:"المدفوعات",record_payment:"تسجيل دفعة",party:"الطرف",method:"طريقة الدفع",
+    record_expense:"تسجيل مصروف",category:"الفئة",paid_from:"دفع من",notes:"ملاحظات",
+    bills:"فواتير الموردين",new_bill:"فاتورة مورد جديدة",bill_num:"رقم الفاتورة",
+    coa:"دليل الحسابات",coa_sub:"جميع حسابات الأستاذ",new_account:"حساب جديد",code:"الكود",account_name:"اسم الحساب",group:"المجموعة",
+    journals:"قيود اليومية",journals_sub:"سجل القيد المزدوج لجميع المعاملات",description:"الوصف",source:"المصدر",debits:"مدين",credits:"دائن",
+    reports:"التقارير",reports_sub:"البيانات المالية",
+    tb:"ميزان المراجعة",pl:"الأرباح والخسائر",bs:"الميزانية العمومية",ct:"ضريبة الشركات (9%)",vat_report:"ملخص ضريبة القيمة المضافة",ar:"أعمار الذمم المدينة",ap:"أعمار الذمم الدائنة",
+    banking:"البنوك",banking_sub:"أرصدة النقد والبنك",account:"الحساب",balance:"الرصيد",
+    settings:"الإعدادات",settings_sub:"الشركة والتفضيلات",company_name:"اسم الشركة",currency:"العملة",financial_year:"السنة المالية",trn:"الرقم الضريبي",
+    save_settings:"حفظ الإعدادات",backup_restore:"النسخ الاحتياطي والاستعادة",backup_desc:"قم بتنزيل نسخة من جميع بياناتك المحاسبية، أو استعادة من نسخة احتياطية سابقة.",
+    danger_zone:"منطقة الخطر",reset_data:"إعادة تعيين جميع البيانات لهذه الشركة",
+    cancel:"إلغاء",save_customer:"حفظ العميل",save_item:"حفظ المنتج",save_supplier:"حفظ المورد",save_account:"حفظ الحساب",save_post:"حفظ وترحيل الفاتورة",save_payment:"حفظ الدفعة",save_expense:"حفظ المصروف",save_bill:"حفظ الفاتورة",close:"إغلاق",
+    switch:"تبديل",name:"الاسم",phone:"الهاتف",email:"البريد الإلكتروني",emirate:"الإمارة",address:"العنوان",
+    item_name:"اسم المنتج",sku:"رمز المنتج",vat_rate:"نسبة الضريبة",vat:"ضريبة القيمة المضافة",hsn:"رمز HSN/SAC",unit:"الوحدة",
+    invoice_date:"تاريخ الفاتورة",due_date:"تاريخ الاستحقاق",line_items:"البنود",item_desc:"المنتج / الوصف",qty:"الكمية",rate:"السعر",
+    subtotal:"المجموع الفرعي",add_line:"+ إضافة بند",reference:"المرجع",
+    expense_account:"حساب المصروف",paid_to:"دفع إلى (المورد)",bill_date:"تاريخ الفاتورة",
+    assets:"الأصول",liabilities:"الالتزامات",equity:"حقوق الملكية",income:"الإيرادات",
+    tax_invoice:"فاتورة ضريبية",balance_due:"الرصيد المستحق",print:"طباعة",record_pmt:"تسجيل دفعة",paid_label:"المدفوع",
+    verify_qr:"متوافق مع الهيئة الاتحادية للضرائب",qr_hint:"امسح بتطبيق الهيئة الذكي"
+  }
 };
-let currentLang='en';
+let currentLang = 'en';
 function t(key){return (i18n[currentLang] && i18n[currentLang][key]) || (i18n.en[key]) || key}
-function translateUI(){
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key=el.getAttribute('data-i18n');
-    const val=t(key);
-    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')el.placeholder=val;
-    else el.textContent=val;
+function translateUI() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val;
+    else el.textContent = val;
   });
-  if(currentCompany)buildSidebar();
+  if (currentCompany) buildSidebar();
 }
-document.getElementById('langToggle').addEventListener('click',()=>{
-  currentLang=currentLang==='en'?'ar':'en';
-  document.documentElement.dir=currentLang==='ar'?'rtl':'ltr';
-  document.getElementById('langToggle').textContent=currentLang==='en'?'🇦🇪 عربي':'🇬🇧 English';
+document.getElementById('langToggle').addEventListener('click', () => {
+  currentLang = currentLang === 'en' ? 'ar' : 'en';
+  document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('langToggle').textContent = currentLang === 'en' ? '🇦🇪 عربي' : '🇬🇧 English';
   translateUI();
 });
 
@@ -916,7 +900,6 @@ let custSearch='',itemSearch='',itemTypeFilter='',invSearch='',invStatusFilter='
 let currentReport='tb';
 let currentViewedInvoiceId=null;
 let currentViewedStatementCustomerId=null;
-const chartInstances={};
 
 /* ============ DEFAULT CHART OF ACCOUNTS ============ */
 const DEFAULT_ACCOUNTS=[
@@ -1140,11 +1123,6 @@ function computeInvoiceStatus(inv){
   if(inv.status==='sent')return 'sent';
   return 'posted';
 }
-function statusBadge(inv){
-  const st=computeInvoiceStatus(inv);
-  const cls={draft:'badge-draft',posted:'badge-posted',sent:'badge-sent',paid:'badge-paid',partial:'badge-partial',overdue:'badge-overdue',void:'badge-void'}[st]||'badge-draft';
-  return '<span class="badge-status '+cls+'">'+st+'</span>';
-}
 
 /* ============ DASHBOARD ============ */
 function renderDashboard(){
@@ -1164,6 +1142,7 @@ function renderDashboard(){
   pe.textContent=fmtAED(profit);
   pe.className='kpi-value'+(profit>0?' positive':profit<0?' negative':'');
 
+  // Overdue alert
   const overdue=allInvoices.filter(i=>i.status!=='draft'&&i.status!=='void'&&i.status!=='paid'&&((i.total||0)-(i.paid||0))>0&&daysBetween(i.dueDate||i.date,new Date())>0);
   const alertBox=document.getElementById('overdueAlert');
   if(overdue.length>0){
@@ -1171,6 +1150,7 @@ function renderDashboard(){
     alertBox.innerHTML='<div class="alert-banner" onclick="switchView(\'invoices\')"><div><div class="alert-text">⚠️ '+overdue.length+' overdue invoice'+(overdue.length===1?'':'s')+' — '+fmtAED(sum)+' outstanding</div></div><div class="alert-arrow">→</div></div>';
   }else{alertBox.innerHTML=''}
 
+  // Top customers
   const custTotals={};
   allInvoices.filter(i=>i.status!=='void'&&i.status!=='draft').forEach(i=>{custTotals[i.customerName]=(custTotals[i.customerName]||0)+(i.total||0)});
   const topC=Object.entries(custTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
@@ -1178,158 +1158,23 @@ function renderDashboard(){
   if(topC.length===0){tc.innerHTML='<div style="padding:20px;color:var(--text-3);font-size:12.5px;text-align:center">No sales yet</div>'}
   else{tc.innerHTML=topC.map(([n,v])=>'<div class="dash-row-item"><span class="name">'+escapeHtml(n)+'</span><span class="amt">'+fmtAED(v)+'</span></div>').join('')}
 
+  // Top items
   const itemTotals={};
-  allInvoices.filter(i=>i.status!=='void'&&i.status!=='draft').forEach(i=>{(i.items||[]).forEach(it=>{const key=it.description||'Item';itemTotals[key]=(itemTotals[key]||0)+(it.qty*it.rate*100)})});
+  allInvoices.filter(i=>i.status!=='void'&&i.status!=='draft').forEach(i=>{(i.items||[]).forEach(it=>{const key=it.description||'Item';itemTotals[key]=(itemTotals[key]||0)+(it.qty*it.rate)})});
   const topI=Object.entries(itemTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const ti=document.getElementById('topItems');
   if(topI.length===0){ti.innerHTML='<div style="padding:20px;color:var(--text-3);font-size:12.5px;text-align:center">No items sold yet</div>'}
-  else{ti.innerHTML=topI.map(([n,v])=>'<div class="dash-row-item"><span class="name">'+escapeHtml(n)+'</span><span class="amt">'+fmtAED(v)+'</span></div>').join('')}
+  else{ti.innerHTML=topI.map(([n,v])=>'<div class="dash-row-item"><span class="name">'+escapeHtml(n)+'</span><span class="amt">'+fmtAED(v*100)+'</span></div>').join('')}
 
   const tbody=document.getElementById('dashRecentInv');
   const recent=allInvoices.slice().sort((a,b)=>b.id-a.id).slice(0,5);
   if(recent.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty" style="padding:30px;font-size:12px">No invoices yet</td></tr>'}
   else{tbody.innerHTML=recent.map(inv=>'<tr><td class="code-cell">'+escapeHtml(inv.number)+'</td><td>'+escapeHtml(inv.customerName)+'</td><td>'+(inv.date||'').slice(0,10)+'</td><td class="num">'+fmtAED(inv.total)+'</td><td>'+statusBadge(inv)+'</td></tr>').join('')}
-
-  renderDashboardCharts();
-  setTimeout(animateKPIs,80);
 }
-
-/* ============ DASHBOARD CHARTS ============ */
-function destroyChart(key){if(chartInstances[key]){chartInstances[key].destroy();chartInstances[key]=null}}
-function lastNMonths(n){
-  const months=[];const now=new Date();
-  for(let i=n-1;i>=0;i--){
-    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
-    months.push({key:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),label:d.toLocaleDateString('en-AE',{month:'short',year:'2-digit'})});
-  }
-  return months;
-}
-function renderDashboardCharts(){
-  if(typeof Chart==='undefined'){console.warn('Chart.js not loaded');return}
-  const months=lastNMonths(6);
-
-  const revByMonth={},expByMonth={};
-  months.forEach(m=>{revByMonth[m.key]=0;expByMonth[m.key]=0});
-  allInvoices.filter(i=>i.status!=='draft'&&i.status!=='void').forEach(inv=>{
-    if(!inv.date)return;const k=inv.date.slice(0,7);
-    if(revByMonth[k]!==undefined)revByMonth[k]+=(inv.subtotal||0);
-  });
-  allExpenses.forEach(e=>{
-    if(!e.date)return;const k=e.date.slice(0,7);
-    if(expByMonth[k]!==undefined)expByMonth[k]+=(e.amount||0);
-  });
-
-  destroyChart('revExp');
-  const revExpCtx=document.getElementById('chartRevExp');
-  if(revExpCtx){
-    chartInstances.revExp=new Chart(revExpCtx,{
-      type:'bar',
-      data:{labels:months.map(m=>m.label),datasets:[
-        {label:'Revenue',data:months.map(m=>revByMonth[m.key]/100),backgroundColor:'#0d9488',borderRadius:6},
-        {label:'Expenses',data:months.map(m=>expByMonth[m.key]/100),backgroundColor:'#dc2626',borderRadius:6}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12,padding:10}}},scales:{y:{beginAtZero:true,ticks:{font:{size:10},callback:v=>'AED '+v.toLocaleString()}},x:{ticks:{font:{size:10}}}}}
-    });
-  }
-
-  const bankAcc=findAccountByCode('1010');
-  const cashAcc=findAccountByCode('1000');
-  const bankId=bankAcc?bankAcc.id:null;
-  const cashId=cashAcc?cashAcc.id:null;
-  let running=0;const monthRuns={};
-  const sortedJournals=allJournals.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
-  sortedJournals.forEach(j=>{
-    j.lines.forEach(l=>{if(l.accountId===bankId||l.accountId===cashId){running+=(l.debit||0)-(l.credit||0)}});
-    const k=(j.date||'').slice(0,7);
-    if(k)monthRuns[k]=running;
-  });
-  const flows=[];let lastKnown=0;
-  months.forEach(m=>{if(monthRuns[m.key]!==undefined)lastKnown=monthRuns[m.key];flows.push(lastKnown)});
-
-  destroyChart('cashFlow');
-  const cashCtx=document.getElementById('chartCashFlow');
-  if(cashCtx){
-    chartInstances.cashFlow=new Chart(cashCtx,{
-      type:'line',
-      data:{labels:months.map(m=>m.label),datasets:[{label:'Cash + Bank Balance',data:flows.map(f=>f/100),borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,0.12)',fill:true,tension:0.35,pointRadius:4,pointBackgroundColor:'#0f766e',borderWidth:2.5}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12,padding:10}}},scales:{y:{beginAtZero:false,ticks:{font:{size:10},callback:v=>'AED '+v.toLocaleString()}},x:{ticks:{font:{size:10}}}}}
-    });
-  }
-
-  const expByAcc={};
-  allExpenses.forEach(e=>{
-    const acc=allAccounts.find(a=>a.id===e.accountId);
-    const name=acc?acc.name:'Other';
-    expByAcc[name]=(expByAcc[name]||0)+(e.amount||0);
-  });
-  const expEntries=Object.entries(expByAcc).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const palette=['#0d9488','#0f766e','#14b8a6','#5eead4','#f59e0b','#ef4444','#8b5cf6','#ec4899'];
-
-  destroyChart('expense');
-  const expCtx=document.getElementById('chartExpense');
-  if(expCtx){
-    if(expEntries.length===0){
-      const c=expCtx;const ctx=c.getContext('2d');
-      c.width=c.offsetWidth||300;c.height=220;
-      ctx.fillStyle='#94a3b8';ctx.font='13px Inter, sans-serif';ctx.textAlign='center';
-      ctx.fillText('No expenses recorded yet',c.width/2,110);
-    }else{
-      chartInstances.expense=new Chart(expCtx,{
-        type:'doughnut',
-        data:{labels:expEntries.map(e=>e[0]),datasets:[{data:expEntries.map(e=>e[1]/100),backgroundColor:palette.slice(0,expEntries.length),borderWidth:2,borderColor:'#ffffff'}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:8}}},cutout:'62%'}
-      });
-    }
-  }
-
-  const custTotals={};
-  allInvoices.filter(i=>i.status!=='void'&&i.status!=='draft').forEach(i=>{custTotals[i.customerName]=(custTotals[i.customerName]||0)+(i.total||0)});
-  const topC=Object.entries(custTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
-
-  destroyChart('topCustomers');
-  const custCtx=document.getElementById('chartTopCustomers');
-  if(custCtx){
-    if(topC.length===0){
-      const c=custCtx;const ctx=c.getContext('2d');
-      c.width=c.offsetWidth||300;c.height=220;
-      ctx.fillStyle='#94a3b8';ctx.font='13px Inter, sans-serif';ctx.textAlign='center';
-      ctx.fillText('No sales recorded yet',c.width/2,110);
-    }else{
-      chartInstances.topCustomers=new Chart(custCtx,{
-        type:'bar',
-        data:{labels:topC.map(c=>c[0].length>18?c[0].slice(0,16)+'…':c[0]),datasets:[{label:'Revenue',data:topC.map(c=>c[1]/100),backgroundColor:'#0d9488',borderRadius:6}]},
-        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{font:{size:10},callback:v=>'AED '+v.toLocaleString()}},y:{ticks:{font:{size:11}}}}}
-      });
-    }
-  }
-}
-
-/* ============ ANIMATED KPI COUNTERS ============ */
-function animateValue(el,start,end,duration){
-  if(!el)return;
-  const startTime=performance.now();
-  function frame(now){
-    const elapsed=now-startTime;
-    const progress=Math.min(elapsed/duration,1);
-    const eased=1-Math.pow(1-progress,3);
-    const current=start+(end-start)*eased;
-    const isNeg=current<0;
-    const abs=Math.abs(current);
-    el.textContent=(isNeg?'-':'')+'AED '+abs.toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
-    if(progress<1)requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
-function animateKPIs(){
-  ['kpiRecv','kpiPay','kpiCash','kpiRev','kpiExp','kpiProfit'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    const val=parseFloat(el.textContent.replace(/[^0-9.\-]/g,''))||0;
-    if(val===0)return;
-    el.classList.add('animating');
-    animateValue(el,0,val,900);
-    setTimeout(()=>el.classList.remove('animating'),950);
-  });
+function statusBadge(inv){
+  const st=computeInvoiceStatus(inv);
+  const cls={draft:'badge-draft',posted:'badge-posted',sent:'badge-sent',paid:'badge-paid',partial:'badge-partial',overdue:'badge-overdue',void:'badge-void'}[st]||'badge-draft';
+  return '<span class="badge-status '+cls+'">'+st+'</span>';
 }
 
 /* ============ CUSTOMERS ============ */
@@ -1338,7 +1183,7 @@ function renderCustomers(){
   let rows=allCustomers.slice();
   if(custSearch){const q=custSearch.toLowerCase();rows=rows.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.phone||'').includes(q)||(c.email||'').toLowerCase().includes(q)||(c.trn||'').toLowerCase().includes(q))}
   const tbody=document.getElementById('custBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty"><div class="empty-icon">👥</div><h3>'+(custSearch?'No matches':'No customers yet')+'</h3><p>'+(custSearch?'Try different search.':'Add your first customer to begin invoicing.')+'</p><div class="empty-cta">'+(custSearch?'':'<button class="btn btn-primary" onclick="openCustomerModal()">+ Add Your First Customer</button>')+'</div></td></tr>';return}
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty"><div class="empty-icon">👥</div><h3>'+(custSearch?'No matches':'No customers yet')+'</h3><p>'+(custSearch?'Try different search.':'Add your first customer to begin invoicing.')+'</p></td></tr>';return}
   tbody.innerHTML=rows.map(c=>{
     const initial=(c.name||'?').charAt(0).toUpperCase();
     let out=0,ts=0;
@@ -1378,6 +1223,7 @@ async function showStatement(customerId){
   currentViewedStatementCustomerId=customerId;
   const invs=allInvoices.filter(i=>i.customerId===customerId&&i.status!=='void').sort((a,b)=>(a.date||'').localeCompare(b.date||''));
   const pays=allPayments.filter(p=>p.type==='customer'&&p.partyId===customerId).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  // Combine events
   const events=[];
   invs.forEach(i=>events.push({date:i.date,type:'Invoice',ref:i.number,debit:i.total,credit:0}));
   pays.forEach(p=>events.push({date:p.date,type:'Payment',ref:p.reference||'—',debit:0,credit:p.amount}));
@@ -1402,7 +1248,7 @@ function renderItems(){
   if(itemTypeFilter)rows=rows.filter(i=>i.type===itemTypeFilter);
   if(itemSearch){const q=itemSearch.toLowerCase();rows=rows.filter(i=>(i.name||'').toLowerCase().includes(q)||(i.sku||'').toLowerCase().includes(q))}
   const tbody=document.getElementById('itemBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty"><div class="empty-icon">📦</div><h3>No items</h3><p>Add products or services.</p><div class="empty-cta"><button class="btn btn-primary" onclick="openItemModal()">+ Add Your First Item</button></div></td></tr>';return}
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="5" class="empty"><div class="empty-icon">📦</div><h3>No items</h3><p>Add products or services.</p></td></tr>';return}
   tbody.innerHTML=rows.map(i=>'<tr><td><div class="item-cell"><div class="item-avatar">'+escapeHtml((i.name||'?').charAt(0).toUpperCase())+'</div><div><div class="item-name">'+escapeHtml(i.name)+'</div>'+(i.sku?'<div class="item-sku">'+escapeHtml(i.sku)+'</div>':'')+'</div></div></td><td><span class="type-badge '+i.type+'">'+(i.type==='product'?'Product':'Service')+'</span></td><td class="num">'+fmtAEDNum(i.salePrice)+'</td><td class="num">'+(i.purchaseCost?fmtAEDNum(i.purchaseCost):'—')+'</td><td><div class="row-actions"><button class="icon-btn" onclick="editItem('+i.id+')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn danger" onclick="deleteItem('+i.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>').join('');
 }
 document.getElementById('itemSearch').addEventListener('input',e=>{itemSearch=e.target.value.trim();renderItems()});
@@ -1437,7 +1283,7 @@ async function deleteItem(id){if(!confirm('Delete item?'))return;await dbDel('it
 function renderSuppliers(){
   document.getElementById('suppSummary').textContent=allSuppliers.length+' supplier'+(allSuppliers.length===1?'':'s');
   const tbody=document.getElementById('suppBody');
-  if(allSuppliers.length===0){tbody.innerHTML='<tr><td colspan="4" class="empty"><div class="empty-icon">🏢</div><h3>No suppliers yet</h3><p>Add suppliers you buy from.</p><div class="empty-cta"><button class="btn btn-primary" onclick="openSupplierModal()">+ Add Your First Supplier</button></div></td></tr>';return}
+  if(allSuppliers.length===0){tbody.innerHTML='<tr><td colspan="4" class="empty"><div class="empty-icon">🏢</div><h3>No suppliers yet</h3><p>Add suppliers you buy from.</p></td></tr>';return}
   tbody.innerHTML=allSuppliers.map(s=>{
     let out=0;allBills.filter(b=>b.supplierId===s.id).forEach(b=>{out+=((b.total||0)-(b.paid||0))});
     return '<tr><td><div class="cust-cell"><div class="cust-avatar" style="background:linear-gradient(135deg,#e9d5ff,#d8b4fe);color:#6b21a8">'+escapeHtml((s.name||'?').charAt(0).toUpperCase())+'</div><div><div class="cust-name">'+escapeHtml(s.name)+'</div>'+(s.trn?'<div class="cust-sub">TRN: '+escapeHtml(s.trn)+'</div>':'')+'</div></div></td><td>'+escapeHtml([s.phone,s.email].filter(Boolean).join(' · ')||'—')+'</td><td class="num">'+fmtAED(out)+'</td><td><div class="row-actions"><button class="icon-btn" onclick="editSupplier('+s.id+')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn danger" onclick="deleteSupplier('+s.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>';
@@ -1473,8 +1319,12 @@ function renderInvoices(){
   if(invStatusFilter)rows=rows.filter(i=>computeInvoiceStatus(i)===invStatusFilter);
   if(invSearch){const q=invSearch.toLowerCase();rows=rows.filter(i=>(i.number||'').toLowerCase().includes(q)||(i.customerName||'').toLowerCase().includes(q))}
   const tbody=document.getElementById('invBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="8" class="empty"><div class="empty-icon">📄</div><h3>No invoices yet</h3><p>Create your first invoice to record sales.</p><div class="empty-cta"><button class="btn btn-primary" onclick="openInvoiceModal()">+ Create Your First Invoice</button></div></td></tr>';return}
-  tbody.innerHTML=rows.map(inv=>'<tr><td class="code-cell">'+escapeHtml(inv.number)+'</td><td>'+escapeHtml(inv.customerName)+'</td><td>'+(inv.date||'').slice(0,10)+'</td><td>'+(inv.dueDate||'—').slice(0,10)+'</td><td class="num">'+fmtAED(inv.total)+'</td><td class="num">'+fmtAED(inv.paid||0)+'</td><td>'+statusBadge(inv)+'</td><td><div class="row-actions"><button class="icon-btn primary" onclick="viewInvoice('+inv.id+')" title="View"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger" onclick="deleteInvoice('+inv.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>').join('');
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="8" class="empty"><div class="empty-icon">📄</div><h3>No invoices yet</h3><p>Create your first invoice to record sales.</p></td></tr>';return}
+  tbody.innerHTML=rows.map(inv=>{
+    const st=computeInvoiceStatus(inv);
+    const invForBadge={...inv,status:st};
+    return '<tr><td class="code-cell">'+escapeHtml(inv.number)+'</td><td>'+escapeHtml(inv.customerName)+'</td><td>'+(inv.date||'').slice(0,10)+'</td><td>'+(inv.dueDate||'—').slice(0,10)+'</td><td class="num">'+fmtAED(inv.total)+'</td><td class="num">'+fmtAED(inv.paid||0)+'</td><td>'+statusBadge(invForBadge)+'</td><td><div class="row-actions"><button class="icon-btn primary" onclick="viewInvoice('+inv.id+')" title="View"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger" onclick="deleteInvoice('+inv.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>';
+  }).join('');
 }
 document.getElementById('invSearch').addEventListener('input',e=>{invSearch=e.target.value.trim();renderInvoices()});
 document.getElementById('invStatusFilter').addEventListener('change',e=>{invStatusFilter=e.target.value;renderInvoices()});
@@ -1552,6 +1402,7 @@ document.getElementById('saveInvoiceBtn').addEventListener('click',async()=>{
   }catch(e){console.error(e);toast('Error: '+e.message,'error')}
 });
 
+/* ============ VIEW INVOICE (with Print + Zoho Actions) ============ */
 async function viewInvoice(id){
   const inv=allInvoices.find(i=>i.id===id);
   if(!inv)return;
@@ -1560,13 +1411,17 @@ async function viewInvoice(id){
   const st=computeInvoiceStatus(inv);
   const bal=(inv.total||0)-(inv.paid||0);
   const isVoid=st==='void';
+
+  // Build QR only if not void
   let tlvBase64='';
   if(!isVoid){
     const timestamp=inv.createdAt?new Date(inv.createdAt).toISOString():new Date().toISOString();
     tlvBase64=generateTLVBase64(currentCompany.name||'Seller',currentCompany.trn||'100000000000003',timestamp,inv.vat||0,inv.total||0);
   }
+
   const titleTag=isVoid?' <span style="color:var(--danger);font-size:12px">[VOID]</span>':'';
   document.getElementById('invoiceViewModalTitle').innerHTML=t('tax_invoice')+titleTag;
+
   let html='<div class="invoice-view">';
   html+='<div class="invoice-header">';
   html+='<div style="flex:1;min-width:220px">';
@@ -1579,13 +1434,15 @@ async function viewInvoice(id){
   html+='<div class="invoice-customer-label">'+t('customer')+'</div>';
   html+='<div class="invoice-customer-name">'+escapeHtml(inv.customerName)+'</div>';
   if(inv.customerTrn)html+='<div class="invoice-meta">TRN: '+escapeHtml(inv.customerTrn)+'</div>';
-  html+='<div style="margin-top:12px">'+statusBadge(inv)+'</div>';
+  html+='<div style="margin-top:12px">'+statusBadge({...inv,status:st})+'</div>';
   if(!isVoid)html+='<div class="qr-box" style="margin-top:14px;margin-left:auto"><div id="qrCanvasHolder"></div><div class="qr-label">'+t('verify_qr')+'</div><div class="qr-hint">'+t('qr_hint')+'</div></div>';
   html+='</div>';
   html+='</div>';
+
   html+='<table class="table" style="margin-bottom:12px"><thead><tr><th>'+t('item_desc')+'</th><th style="text-align:right">'+t('qty')+'</th><th style="text-align:right">'+t('rate')+'</th><th style="text-align:right">'+t('vat')+'</th><th style="text-align:right">'+t('amount')+'</th></tr></thead><tbody>';
   lines.forEach(l=>{html+='<tr><td>'+escapeHtml(l.description||'Item')+'</td><td class="num">'+l.qty+'</td><td class="num">'+fmtAED(l.rate)+'</td><td class="num">'+(l.vatRate>0?l.vatRate+'%':'Exempt')+'</td><td class="num">'+fmtAED(l.amount)+'</td></tr>'});
   html+='</tbody></table>';
+
   html+='<div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:14px">';
   html+='<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">'+t('subtotal')+'</span><span class="mono" style="font-weight:600">'+fmtAED(inv.subtotal)+'</span></div>';
   if(inv.vat)html+='<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-3)">'+t('vat')+'</span><span class="mono" style="font-weight:600">'+fmtAED(inv.vat)+'</span></div>';
@@ -1594,11 +1451,16 @@ async function viewInvoice(id){
   html+='<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--danger);font-weight:600"><span>'+t('balance_due')+'</span><span class="mono">'+fmtAED(bal)+'</span></div>';
   html+='</div>';
   html+='</div>';
+
   document.getElementById('invoiceViewBody').innerHTML=html;
   document.getElementById('invoiceViewModal').classList.add('show');
+
+  // Buttons state
   document.getElementById('invQuickPayBtn').style.display=(st==='paid'||isVoid)?'none':'inline-flex';
   document.getElementById('invVoidBtn').style.display=(isVoid||st==='paid'||st==='draft')?'none':'inline-flex';
   document.getElementById('invDuplicateBtn').style.display=isVoid?'none':'inline-flex';
+
+  // Render QR
   if(!isVoid){
     setTimeout(()=>{
       const holder=document.getElementById('qrCanvasHolder');
@@ -1606,6 +1468,7 @@ async function viewInvoice(id){
     },80);
   }
 }
+
 async function deleteInvoice(id){
   const inv=allInvoices.find(x=>x.id===id);
   if(!inv)return;
@@ -1616,10 +1479,13 @@ async function deleteInvoice(id){
   await dbDel('invoices',id);
   await reloadData();renderInvoices();toast('Invoice deleted','success');
 }
+
+/* Void invoice — reverses journal, keeps record */
 async function voidInvoice(id){
   const inv=allInvoices.find(x=>x.id===id);
   if(!inv)return;
-  if(!confirm('Void invoice '+inv.number+'? A reversing journal will be created.'))return;
+  if(!confirm('Void invoice '+inv.number+'? This will create a reversing journal entry. The invoice will remain visible for audit.'))return;
+  // Create reversing journal
   if(inv.journalId){
     const j=allJournals.find(x=>x.id===inv.journalId);
     if(j){
@@ -1633,6 +1499,8 @@ async function voidInvoice(id){
   document.getElementById('invoiceViewModal').classList.remove('show');
   renderInvoices();toast('Invoice voided','success');
 }
+
+/* Duplicate invoice */
 async function duplicateInvoice(id){
   const inv=allInvoices.find(x=>x.id===id);
   if(!inv)return;
@@ -1650,6 +1518,8 @@ async function duplicateInvoice(id){
   document.getElementById('invoiceModal').classList.add('show');
   toast('Duplicated — review and save','info');
 }
+
+/* WhatsApp share */
 function shareWhatsapp(id){
   const inv=allInvoices.find(x=>x.id===id);
   if(!inv)return;
@@ -1658,6 +1528,8 @@ function shareWhatsapp(id){
   const url='https://wa.me/?text='+encodeURIComponent(msg);
   window.open(url,'_blank');
 }
+
+/* Quick pay from invoice view */
 async function quickPayInvoice(id){
   document.getElementById('invoiceViewModal').classList.remove('show');
   const inv=allInvoices.find(i=>i.id===id);
@@ -1675,6 +1547,8 @@ async function quickPayInvoice(id){
   document.getElementById('payNotes').value='Payment for '+inv.number;
   document.getElementById('paymentModal').classList.add('show');
 }
+
+/* Print button */
 document.getElementById('invPrintBtn').addEventListener('click',()=>{window.print()});
 document.getElementById('invVoidBtn').addEventListener('click',()=>{if(currentViewedInvoiceId)voidInvoice(currentViewedInvoiceId)});
 document.getElementById('invDuplicateBtn').addEventListener('click',()=>{if(currentViewedInvoiceId)duplicateInvoice(currentViewedInvoiceId)});
@@ -1687,7 +1561,7 @@ function renderPayments(){
   document.getElementById('paySummary').textContent=allPayments.length+' payment'+(allPayments.length===1?'':'s')+' · '+fmtAED(total);
   const rows=allPayments.slice().sort((a,b)=>b.id-a.id);
   const tbody=document.getElementById('payBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="6" class="empty"><div class="empty-icon">💵</div><h3>No payments yet</h3><div class="empty-cta"><button class="btn btn-primary" onclick="document.getElementById(\'newPaymentBtn\').click()">+ Record Your First Payment</button></div></td></tr>';return}
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="6" class="empty"><div class="empty-icon">💵</div><h3>No payments yet</h3></td></tr>';return}
   tbody.innerHTML=rows.map(p=>'<tr><td>'+(p.date||'').slice(0,10)+'</td><td><span class="type-badge '+(p.type==='customer'?'income':'expense')+'">'+(p.type==='customer'?'Receipt':'Payment')+'</span></td><td>'+escapeHtml(p.partyName||'—')+'</td><td>'+escapeHtml(p.method||'—')+'</td><td class="num '+(p.type==='customer'?'in':'out')+'">'+fmtAED(p.amount)+'</td><td><div class="row-actions"><button class="icon-btn danger" onclick="deletePayment('+p.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>').join('');
 }
 async function fillPartyOptions(type){
@@ -1768,7 +1642,7 @@ function renderExpenses(){
   document.getElementById('expSummary').textContent=allExpenses.length+' expense'+(allExpenses.length===1?'':'s')+' · '+fmtAED(total);
   const rows=allExpenses.slice().sort((a,b)=>b.id-a.id);
   const tbody=document.getElementById('expBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="6" class="empty"><div class="empty-icon">🧾</div><h3>No expenses recorded</h3><div class="empty-cta"><button class="btn btn-primary" onclick="document.getElementById(\'newExpenseBtn\').click()">+ Record Your First Expense</button></div></td></tr>';return}
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="6" class="empty"><div class="empty-icon">🧾</div><h3>No expenses recorded</h3></td></tr>';return}
   tbody.innerHTML=rows.map(e=>{
     const acc=allAccounts.find(a=>a.id===e.accountId);
     return '<tr><td>'+(e.date||'').slice(0,10)+'</td><td><span class="type-badge expense">'+escapeHtml(acc?acc.name:'Expense')+'</span></td><td>'+escapeHtml(e.paidFrom==='cash'?'Cash':'Bank')+'</td><td>'+escapeHtml(e.party||e.notes||'—')+'</td><td class="num out">'+fmtAED(e.amount)+'</td><td><div class="row-actions"><button class="icon-btn danger" onclick="deleteExpense('+e.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>';
@@ -1817,7 +1691,7 @@ function renderBills(){
   document.getElementById('billSummary').textContent=allBills.length+' bill'+(allBills.length===1?'':'s')+' · '+fmtAED(total);
   const rows=allBills.slice().sort((a,b)=>b.id-a.id);
   const tbody=document.getElementById('billBody');
-  if(rows.length===0){tbody.innerHTML='<tr><td colspan="7" class="empty"><div class="empty-icon">📑</div><h3>No supplier bills yet</h3><div class="empty-cta"><button class="btn btn-primary" onclick="document.getElementById(\'newBillBtn\').click()">+ Create Your First Bill</button></div></td></tr>';return}
+  if(rows.length===0){tbody.innerHTML='<tr><td colspan="7" class="empty"><div class="empty-icon">📑</div><h3>No supplier bills yet</h3></td></tr>';return}
   tbody.innerHTML=rows.map(b=>'<tr><td class="code-cell">'+escapeHtml(b.number)+'</td><td>'+escapeHtml(b.supplierName)+'</td><td>'+(b.date||'').slice(0,10)+'</td><td class="num">'+fmtAED(b.total)+'</td><td class="num">'+fmtAED(b.paid||0)+'</td><td>'+statusBadge(b)+'</td><td><div class="row-actions"><button class="icon-btn danger" onclick="deleteBill('+b.id+')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>').join('');
 }
 let billLines=[];
@@ -2275,94 +2149,6 @@ document.addEventListener('click',(e)=>{
   if(!e.target.closest('.tb-search'))searchResults.classList.remove('show');
 });
 
-/* ============ FLOATING ACTION BUTTON ============ */
-const fabBtn=document.getElementById('fabBtn');
-const fabMenu=document.getElementById('fabMenu');
-fabBtn.addEventListener('click',(e)=>{
-  e.stopPropagation();
-  fabBtn.classList.toggle('open');
-  fabMenu.classList.toggle('open');
-});
-document.addEventListener('click',(e)=>{
-  if(!e.target.closest('.fab')&&!e.target.closest('.fab-menu')){
-    fabBtn.classList.remove('open');
-    fabMenu.classList.remove('open');
-  }
-});
-document.querySelectorAll('.fab-item').forEach(item=>{
-  item.addEventListener('click',()=>{
-    const action=item.getAttribute('data-fab');
-    fabBtn.classList.remove('open');
-    fabMenu.classList.remove('open');
-    switch(action){
-      case 'invoice':switchView('invoices');setTimeout(()=>openInvoiceModal(),150);break;
-      case 'expense':switchView('expenses');setTimeout(()=>document.getElementById('newExpenseBtn').click(),150);break;
-      case 'payment':switchView('payments');setTimeout(()=>document.getElementById('newPaymentBtn').click(),150);break;
-      case 'customer':switchView('customers');setTimeout(()=>openCustomerModal(),150);break;
-      case 'item':switchView('items');setTimeout(()=>openItemModal(),150);break;
-    }
-  });
-});
-
-/* ============ WIZARD / FIRST-TIME FLOW ============ */
-const WIZARD_KEY='ledgerpro_uae.wizardDone';
-const wizardSteps=[
-  {title:'Welcome to LedgerPro',sub:'Your offline accounting assistant for UAE SMEs.',body:`<div class="wizard-icon">👋</div><h3>Hi! I'm your accounting assistant.</h3><p>LedgerPro helps you send VAT-compliant invoices, track expenses, and see your profit — all from your tablet. Nothing is uploaded anywhere.</p><p><strong>Let's get you up and running in 3 quick steps:</strong></p><ul><li>Add a customer you invoice</li><li>Add a product or service you sell</li><li>Send your first tax invoice</li></ul>`},
-  {title:'Add Your First Customer',sub:'Anyone who buys from you.',body:`<div class="wizard-icon">👤</div><h3>Every invoice starts with a customer.</h3><p>A customer can be an individual, a company, or even a one-time buyer. You can add their <strong>TRN</strong> if they're VAT-registered (this appears on the tax invoice).</p><p>We'll walk you there now — just fill in the name and hit Save.</p>`},
-  {title:'Add Your First Item',sub:'A product or service you sell.',body:`<div class="wizard-icon">📦</div><h3>Items are what you sell.</h3><p>You can sell <strong>products</strong> (like electronics) or <strong>services</strong> (like consulting). Set a default price and VAT rate — the invoice will fill it in automatically.</p><p>Most UAE items use <strong>5% VAT</strong>; some (exports, healthcare) are 0% or exempt.</p>`},
-  {title:'You\\'re Ready!',sub:'Create your first invoice.',body:`<div class="wizard-icon">🎉</div><h3>All set!</h3><p>You've set up your company, a customer, and an item. Now you can create invoices with just a few taps — complete with the FTA-compliant QR code.</p><p><strong>Pro tips:</strong></p><ul><li>Tap the <span class="kbd">+</span> button (bottom-right) to create anything</li><li>Use <span class="kbd">/</span> to search any invoice or customer</li><li>Press <span class="kbd">N</span> for a new invoice from any screen</li><li>Go to <strong>Settings → Export Backup</strong> regularly</li></ul>`}
-];
-let wizardStep=0;
-function showWizard(step){
-  wizardStep=step||0;
-  const s=wizardSteps[wizardStep];
-  document.getElementById('wizardTitle').textContent=s.title;
-  document.getElementById('wizardSub').textContent=s.sub;
-  document.getElementById('wizardBody').innerHTML=s.body;
-  document.querySelectorAll('.w-step').forEach((el,i)=>el.classList.toggle('active',i<=wizardStep));
-  document.getElementById('wizardPrev').style.display=wizardStep>0?'inline-flex':'none';
-  document.getElementById('wizardNext').textContent=wizardStep===wizardSteps.length-1?'Create Invoice':'Next';
-  document.getElementById('wizardBackdrop').classList.add('show');
-}
-document.getElementById('wizardNext').addEventListener('click',()=>{
-  if(wizardStep===wizardSteps.length-1){
-    document.getElementById('wizardBackdrop').classList.remove('show');
-    localStorage.setItem(WIZARD_KEY,'1');
-    switchView('invoices');
-    setTimeout(()=>openInvoiceModal(),300);
-    return;
-  }
-  wizardStep++;
-  showWizard(wizardStep);
-  if(wizardStep===1){switchView('customers');setTimeout(()=>openCustomerModal(),300)}
-  if(wizardStep===2){switchView('items');setTimeout(()=>openItemModal(),300)}
-});
-document.getElementById('wizardPrev').addEventListener('click',()=>{if(wizardStep>0){wizardStep--;showWizard(wizardStep)}});
-document.getElementById('wizardSkip').addEventListener('click',()=>{document.getElementById('wizardBackdrop').classList.remove('show');localStorage.setItem(WIZARD_KEY,'1')});
-document.getElementById('wizardClose').addEventListener('click',()=>{document.getElementById('wizardBackdrop').classList.remove('show');localStorage.setItem(WIZARD_KEY,'1')});
-function maybeShowWizard(){
-  if(!localStorage.getItem(WIZARD_KEY)){
-    setTimeout(()=>showWizard(0),600);
-  }
-}
-
-/* ============ KEYBOARD SHORTCUTS ============ */
-document.addEventListener('keydown',(e)=>{
-  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
-  const modalOpen=document.querySelector('.modal-bg.show');
-  if(e.key==='Escape'&&modalOpen){modalOpen.classList.remove('show');return}
-  if(modalOpen)return;
-  if(e.key==='/'||(e.key==='k'&&(e.ctrlKey||e.metaKey))){
-    e.preventDefault();
-    const si=document.getElementById('globalSearch');
-    if(si){si.focus();si.scrollIntoView({behavior:'smooth',block:'center'})}
-  }
-  if(e.key==='n'||e.key==='N'){if(!currentCompany)return;e.preventDefault();openInvoiceModal()}
-  if(e.key==='d'||e.key==='D'){if(!currentCompany)return;e.preventDefault();switchView('dashboard')}
-  if(e.key==='c'||e.key==='C'){if(!currentCompany)return;e.preventDefault();switchView('customers')}
-  if(e.key==='i'||e.key==='I'){if(!currentCompany)return;e.preventDefault();switchView('invoices')}
-});
-
 /* ============ MODAL & UI HANDLERS ============ */
 document.querySelectorAll('[data-close]').forEach(btn=>{
   btn.addEventListener('click',()=>{document.getElementById(btn.getAttribute('data-close')).classList.remove('show')});
@@ -2370,6 +2156,7 @@ document.querySelectorAll('[data-close]').forEach(btn=>{
 document.querySelectorAll('.modal-bg').forEach(bg=>{
   bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('show')});
 });
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-bg.show').forEach(m=>m.classList.remove('show'))});
 document.getElementById('tbMenu').addEventListener('click',()=>{
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sbBackdrop').classList.toggle('show');
@@ -2402,8 +2189,6 @@ window.addEventListener('hashchange',()=>{
       if(comp){
         currentCompany=comp;
         await bootApp(comp.id);
-        const hasData=allCustomers.length>0||allItems.length>0||allInvoices.length>0;
-        if(!hasData)maybeShowWizard();
         return;
       }else{localStorage.removeItem('ledgerpro_uae.activeCompanyId')}
     }
